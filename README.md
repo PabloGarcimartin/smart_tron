@@ -1,2 +1,2 @@
-# smart_tron
-Game style curve fever to try an IA
+#SmartCurve
+Curve Fever to kill everyone with IA
