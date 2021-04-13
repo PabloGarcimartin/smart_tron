@@ -236,18 +236,33 @@ function sleep(ms) {
 }
 
 function xml_http_post(url, data) {
-var req = new XMLHttpRequest();
-req.open("POST", url, true);
-req.onreadystatechange = function() {
-    if (req.readyState == 4) {
-    console.log(req.responseText);
-    }
-}
-req.send(data);
+  var formData = new FormData();
+
+  formData.append("username", data);
+  formData.append("accountnum", 123456);
+  formData.append("afile", fileInputElement.files[0]);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);req.onreadystatechange = function() {
+  xhr.send(formData);
+  if (req.readyState == 4) {
+      console.log(req.responseText);
+      }
+  }
+
+
+  // var req = new XMLHttpRequest();
+  // req.open("POST", url, true);
+  // req.onreadystatechange = function() {
+  //     if (req.readyState == 4) {
+  //     console.log(req.responseText);
+  //     }
+  // }
+  // req.send(data);
 }
 
 function runbuttonfunc() {
-    xml_http_post("frontend.html", "I sent you this message")
+    xml_http_post("model_smart_tron.html", "uolalalalal")
 }
 
 document.getElementById("runButton").onclick = runbuttonfunc;
