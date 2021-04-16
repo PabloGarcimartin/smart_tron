@@ -240,12 +240,14 @@ function xml_http_post(url, data) {
 
   formData.append("username", data);
   formData.append("accountnum", 123456);
-  formData.append("afile", fileInputElement.files[0]);
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);req.onreadystatechange = function() {
+  xhr.open("POST", url, true);
+  xhr.onreadystatechange = function() {
   xhr.send(formData);
-  if (req.readyState == 4) {
+  console.log("Python button clicked")
+  console.log(xhr.readyState)
+  if (xhr.readyState == 4) {
       console.log(req.responseText);
       }
   }

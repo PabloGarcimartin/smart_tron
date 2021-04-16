@@ -13,7 +13,7 @@ class TestHandler(http.server.SimpleHTTPRequestHandler):
         try:
             result = json.loads(body, encoding='utf-8')
             # process result as a normal python dictionary
-            ...
+            print(result)
             self.wfile.write('Request has been processed.')
         except Exception as exc:
             self.wfile.write('Request has failed to process. Error: %s', exc.message)
