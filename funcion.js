@@ -235,36 +235,44 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function xml_http_post(url, data) {
-  var formData = new FormData();
-
-  formData.append("username", data);
-  formData.append("accountnum", 123456);
-
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
-  xhr.onreadystatechange = function() {
-  xhr.send(formData);
-  console.log("Python button clicked")
-  console.log(xhr.readyState)
-  if (xhr.readyState == 4) {
-      console.log(req.responseText);
-      }
-  }
-
-
-  // var req = new XMLHttpRequest();
-  // req.open("POST", url, true);
-  // req.onreadystatechange = function() {
-  //     if (req.readyState == 4) {
-  //     console.log(req.responseText);
-  //     }
-  // }
-  // req.send(data);
-}
-
 function runbuttonfunc() {
-    xml_http_post("model_smart_tron.html", "uolalalalal")
+    var data = new Array();
+    data["player1_name"] = "123456";
+    data["player1_x"] = "123456";
+    data["player1_y"] = "123456";
+    data["player1_angle"] = "123456";
+    data["player1_right"] = "123456";
+    data["player1_left"] = "123456";
+    data["player2_name"] = "123456";
+    data["player2_x"] = "123456";
+    data["player2_y"] = "123456";
+    data["player2_angle"] = "123456";
+    data["player2_right"] = "123456";
+    data["player2_left"] = "123456";
+    var data = {
+      player1_name: "John",
+      player1_x: 30,
+      player1_y: 2,
+      player1_angle: 30,
+      player1_right: true,
+      player1_left: false,
+      player2_name: "Jim",
+      player2_x: 2,
+      player2_y: 30,
+      player2_angle: 30,
+      player2_right: false,
+      player2_left: true,
+    };
+    var myJSON = JSON.stringify(data);
+    console.log(myJSON);
+    var req = new XMLHttpRequest();
+    req.open("POST", "model_smart_tron.html", true);
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          console.log(req.responseText);
+        }
+    }
+    req.send(JSON.stringify(myJSON));
 }
 
 document.getElementById("runButton").onclick = runbuttonfunc;
