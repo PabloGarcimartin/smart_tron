@@ -21,7 +21,11 @@ class TestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Content-type", "text/plain")
         self.end_headers()
         self.flush_headers()
-        self.wfile.write("yeee".encode())
+
+        turn_left = '0'
+        turn_right = '1'
+        keep_straight = '2'
+        self.wfile.write(turn_right.encode())
 
 
 def start_server():

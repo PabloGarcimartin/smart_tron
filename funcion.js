@@ -1,6 +1,6 @@
 console.log("Inicio");
 
-const timeDelay= 50;
+const timeDelay= 100;
 const anguloGiro = Math.PI / 20;
 const distanciaPaso = 4;
 var tablero=document.getElementById("tablero");
@@ -29,11 +29,6 @@ $(document).ready(function(){
       playersMovement();
       animateStart();
     });
-
-    $('#python').on('click', function(){
-      moveIA();
-    });
-
 });
 
 function setStartPlayerOne(){
@@ -72,10 +67,12 @@ function animateStart(){
   //$('#start').hide();
 
   inGameP1 = setInterval(movePlayerOne, timeDelay);
+  //inGameP1 = setInterval(movePlayerOneIA, timeDelay);
   inGameP2 = setInterval(movePlayerTwo, timeDelay);
 };
 
 function movePlayerOne(){
+  movePlayerOneIA();
   let finalX = 0;
   let finalY = 0;
   var playerOne = document.getElementsByClassName('playerOne active')[0];
@@ -103,7 +100,58 @@ function movePlayerOne(){
   }
 }
 
+function movePlayerOneIA(){
+    var playerOne = document.getElementsByClassName('playerOne active')[0];
+    var playerOnePosition = playerOne.getBoundingClientRect();
+    var playerOneX =  playerOne.style.left.replace('px', '');
+    var playerOneY =  playerOne.style.top.replace('px', '');
+    var playerTwo = document.getElementsByClassName('playerTwo active')[0];
+    var playerTwoPosition = playerTwo.getBoundingClientRect();
+    var playerTwoX =  playerTwo.style.left.replace('px', '');
+    var playerTwoY =  playerTwo.style.top.replace('px', '');
+
+    var data = {
+      player1_name: "John",
+      player1_x: playerOneX,
+      player1_y: playerOneY,
+      player1_angle: anglePlayerOne,
+      player1_right: playerOneRight,
+      player1_left: playerOneLeft,
+      player2_name: "Jim",
+      player2_x: playerTwoX,
+      player2_y: playerTwoY,
+      player2_angle: anglePlayerTwo,
+      player2_right: playerTwoRight,
+      player2_left: playerTwoLeft,
+    };
+    var myJSON = JSON.stringify(data);
+    console.log(myJSON);
+    var req = new XMLHttpRequest();
+    req.open("POST", "model_smart_tron.html", true);
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          console.log(req.responseText);
+          if(req.responseText == 0){
+              console.log('LEFT');
+              playerOneRight = false;
+              playerOneLeft = true;
+          } else if(req.responseText == 1){
+              console.log('RIGHT');
+              playerOneRight = true;
+              playerOneLeft = false;
+          } else if(req.responseText == 2){
+              console.log('ALL STRAIGHT');
+              playerOneRight = false;
+              playerOneLeft = false;
+          }
+          //alert('moved');
+        }
+    }
+    req.send(JSON.stringify(myJSON));
+}
+
 function movePlayerTwo(){
+  movePlayerTwoIA();
   var playerTwo = document.getElementsByClassName('playerTwo active')[0];
   var playerTwo$ = $('.playerTwo.active');
   var playerTwoPosition = playerTwo.getBoundingClientRect();
@@ -127,6 +175,56 @@ function movePlayerTwo(){
     newPlayerTwo[0].style.left = x2+'px';
     newPlayerTwo[0].style.top = y2+'px';
   }
+}
+
+function movePlayerTwoIA(){
+    var playerOne = document.getElementsByClassName('playerOne active')[0];
+    var playerOnePosition = playerOne.getBoundingClientRect();
+    var playerOneX =  playerOne.style.left.replace('px', '');
+    var playerOneY =  playerOne.style.top.replace('px', '');
+    var playerTwo = document.getElementsByClassName('playerTwo active')[0];
+    var playerTwoPosition = playerTwo.getBoundingClientRect();
+    var playerTwoX =  playerTwo.style.left.replace('px', '');
+    var playerTwoY =  playerTwo.style.top.replace('px', '');
+
+    var data = {
+      player1_name: "Player 2",
+      player1_x: playerTwoX,
+      player1_y: playerTwoY,
+      player1_angle: anglePlayerTwo,
+      player1_right: playerTwoRight,
+      player1_left: playerTwoLeft,
+      player2_name: "Player 1",
+      player2_x: playerOneX,
+      player2_y: playerOneY,
+      player2_angle: anglePlayerOne,
+      player2_right: playerOneRight,
+      player2_left: playerOneLeft,
+    };
+    var myJSON = JSON.stringify(data);
+    console.log(myJSON);
+    var req = new XMLHttpRequest();
+    req.open("POST", "model_smart_tron.html", true);
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          console.log(req.responseText);
+          if(req.responseText == 0){
+              console.log('LEFT');
+              playerTwoRight = false;
+              playerTwoLeft = true;
+          } else if(req.responseText == 1){
+              console.log('RIGHT');
+              playerTwoRight = true;
+              playerTwoLeft = false;
+          } else if(req.responseText == 2){
+              console.log('ALL STRAIGHT');
+              playerTwoRight = false;
+              playerTwoLeft = false;
+          }
+          //alert('moved');
+        }
+    }
+    req.send(JSON.stringify(myJSON));
 }
 
 function checkBorders(player){
@@ -218,61 +316,6 @@ function playersMovement() {
   };
 }
 
-function moveIA(){
-  let text = "resultado";
-
-  $.ajax({
-   type: "POST",
-   url: "http://localhost:8000/modelo.py",
-   data: { param: text}
-  }).done(function( o ) {
-    console.log(o);
-  });
-
-}
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-function runbuttonfunc() {
-    var data = new Array();
-    data["player1_name"] = "123456";
-    data["player1_x"] = "123456";
-    data["player1_y"] = "123456";
-    data["player1_angle"] = "123456";
-    data["player1_right"] = "123456";
-    data["player1_left"] = "123456";
-    data["player2_name"] = "123456";
-    data["player2_x"] = "123456";
-    data["player2_y"] = "123456";
-    data["player2_angle"] = "123456";
-    data["player2_right"] = "123456";
-    data["player2_left"] = "123456";
-    var data = {
-      player1_name: "John",
-      player1_x: 30,
-      player1_y: 2,
-      player1_angle: 30,
-      player1_right: true,
-      player1_left: false,
-      player2_name: "Jim",
-      player2_x: 2,
-      player2_y: 30,
-      player2_angle: 30,
-      player2_right: false,
-      player2_left: true,
-    };
-    var myJSON = JSON.stringify(data);
-    console.log(myJSON);
-    var req = new XMLHttpRequest();
-    req.open("POST", "model_smart_tron.html", true);
-    req.onreadystatechange = function() {
-        if (req.readyState == 4) {
-          console.log(req.responseText);
-        }
-    }
-    req.send(JSON.stringify(myJSON));
-}
-
-document.getElementById("runButton").onclick = runbuttonfunc;
