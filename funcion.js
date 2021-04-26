@@ -18,6 +18,9 @@ var playerTwoRight = false;
 var anglePlayerOne = 0;
 var anglePlayerTwo = 0;
 
+var step1 = 0;
+var step2 = 0;
+
 $(document).ready(function(){
     setStartPlayerOne();
     setStartPlayerTwo();
@@ -92,6 +95,7 @@ function movePlayerOne(){
   }
   x = parseInt(playerOneX) + Math.cos(anglePlayerOne) * distanciaPaso;
   y = parseInt(playerOneY) + Math.sin(anglePlayerOne) * distanciaPaso;
+  step1 = step1 + 1;
 
   checkColission(1);
   if( checkBorders(1) ){
@@ -111,18 +115,20 @@ function movePlayerOneIA(){
     var playerTwoY =  playerTwo.style.top.replace('px', '');
 
     var data = {
-      player1_name: "John",
+      player1_name: "Pabel",
       player1_x: playerOneX,
       player1_y: playerOneY,
       player1_angle: anglePlayerOne,
       player1_right: playerOneRight,
       player1_left: playerOneLeft,
-      player2_name: "Jim",
+      player1_step: step1,
+      player2_name: "Rafa",
       player2_x: playerTwoX,
       player2_y: playerTwoY,
       player2_angle: anglePlayerTwo,
       player2_right: playerTwoRight,
       player2_left: playerTwoLeft,
+      player2_step: step2,
     };
     var myJSON = JSON.stringify(data);
     console.log(myJSON);
@@ -169,6 +175,7 @@ function movePlayerTwo(){
   }
   x2 = parseInt(playerTwoX) + Math.cos(anglePlayerTwo) *  distanciaPaso;
   y2 = parseInt(playerTwoY) + Math.sin(anglePlayerTwo) *  distanciaPaso;
+  step2 = step2 + 1;
 
   checkColission(2);
   if( checkBorders(2) ){
@@ -188,18 +195,20 @@ function movePlayerTwoIA(){
     var playerTwoY =  playerTwo.style.top.replace('px', '');
 
     var data = {
-      player1_name: "Player 2",
+      player1_name: "Rafa",
       player1_x: playerTwoX,
       player1_y: playerTwoY,
       player1_angle: anglePlayerTwo,
       player1_right: playerTwoRight,
       player1_left: playerTwoLeft,
-      player2_name: "Player 1",
+      player1_step: step2,
+      player2_name: "Pabel",
       player2_x: playerOneX,
       player2_y: playerOneY,
       player2_angle: anglePlayerOne,
       player2_right: playerOneRight,
       player2_left: playerOneLeft,
+      player2_step: step1,
     };
     var myJSON = JSON.stringify(data);
     console.log(myJSON);
